@@ -22,6 +22,12 @@ export class ProductService {
     return this.http.get<ProductResponse>(`${this.baseURL}/findProductByName?name=${keyword}`)
   }
 
+  getProductDetails(productId:Number):Observable<Product>{
+    this.http.get<Product>(`${this.baseURL}/getProductDetails?id=${productId}`).subscribe(data=> console.log("data"+data.description))
+    return this.http.get<Product>(`${this.baseURL}/getProductDetails?id=${productId}`);
+
+   
+  }
 
 }
 interface ProductResponse{
