@@ -11,6 +11,7 @@ import { ProductService } from 'src/app/services/product.service';
 export class ProductListComponent {
   products:Product[]=[];
   categoryId:Number;
+  
 
 
   constructor(private productService:ProductService,
