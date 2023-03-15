@@ -12,6 +12,8 @@ import { DummyoneComponent } from './Components/dummyone/dummyone.component';
 import { ProuctDetailsComponent } from './Components/prouct-details/prouct-details.component';
 import { HeaderComponent } from './Components/header/header.component';
 
+import { AddCartComponent } from './Components/add-cart/add-cart.component';
+
 
 
 
@@ -36,6 +38,7 @@ const routes:Routes=[
     DummyoneComponent,
     ProuctDetailsComponent,
     HeaderComponent,
+    AddCartComponent,
   
   ],
   imports: [

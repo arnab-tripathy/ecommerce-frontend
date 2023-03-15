@@ -12,14 +12,14 @@ export class ProductService {
   baseURL="http://localhost:8080/products"
   constructor(private http:HttpClient) { }
 
-  getAllProducts(categoryId:Number):Observable<ProductResponse>{
+  getAllProducts(categoryId:Number,pageNum:number,pageSize:number):Observable<ProductResponse>{
 
-     return this.http.get<ProductResponse>(`${this.baseURL}/getProductByCategory?id=${categoryId}`)
+     return this.http.get<ProductResponse>(`${this.baseURL}/getProductByCategory?id=${categoryId}&pageNum=${pageNum}&pageSize=${pageSize}`)
     
      
   }
-  findProductByName(keyword:String):Observable<ProductResponse>{
-    return this.http.get<ProductResponse>(`${this.baseURL}/findProductByName?name=${keyword}`)
+  findProductByName(keyword:String,pageNum:number,pageSize:number):Observable<ProductResponse>{
+    return this.http.get<ProductResponse>(`${this.baseURL}/findProductByName?name=${keyword}&pageNum=${pageNum}&pageSize=${pageSize}`)
   }
 
   getProductDetails(productId:Number):Observable<Product>{
@@ -32,4 +32,8 @@ export class ProductService {
 }
 interface ProductResponse{
     content:Product[];
+    totalElements: number;
+    totalPages: number;
+    size: number;
+    number: number;
 }
