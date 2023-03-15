@@ -108,8 +108,7 @@ a,a:hover{
 .page-wrapper{
     overflow:hidden;
     background:#e5e5e5;
-    padding-bottom:8vh;
-    height: 100vh;
+    padding-bottom:8vh
 }
 
 .page-container{
@@ -722,17 +721,7 @@ table.table.table-bordered th{
     color:#0da8e4
 }
 .detail-section{
-    margin-top:70px;
-    justify-content: center;
-    display: flex;
-   
-
-
-}
-.detail-img{
-    display: flex;
-    justify-content: center;
-    margin-top: 10vh;
+    margin-top:60px
 }
 /**/
 
@@ -986,8 +975,7 @@ footer ul li{
         text-align:center
     }
     .product-box{
-    padding-top: 8vh;
-
+        text-align:centerg
     }
     .page-container{
         position:relative;

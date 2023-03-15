@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 import { AppComponent } from './app.component';
 import { ProductListComponent } from './Components/product-list/product-list.component';
@@ -11,8 +11,6 @@ import { AppSearchComponent } from './Components/app-search/app-search.component
 import { DummyoneComponent } from './Components/dummyone/dummyone.component';
 import { ProuctDetailsComponent } from './Components/prouct-details/prouct-details.component';
 import { HeaderComponent } from './Components/header/header.component';
-
-import { AddCartComponent } from './Components/add-cart/add-cart.component';
 
 
 
@@ -38,15 +36,13 @@ const routes:Routes=[
     DummyoneComponent,
     ProuctDetailsComponent,
     HeaderComponent,
-    AddCartComponent,
   
   ],
   imports: [
 
     RouterModule.forRoot(routes),
     BrowserModule,
-    HttpClientModule,
-    NgbModule
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
