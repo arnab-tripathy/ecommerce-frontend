@@ -1,18 +1,23 @@
-<header class="header-desktop  ">
-    <div class="section-content section-content">
-        <div class="container-fluid">
-            <div class="header-wrap">
-                
-               
-                <app-app-search></app-app-search>
-                <div class="cart-area d-n">
-                    <a href="shopping-detail.html">
-                        <div class="total">19.22 <span> 2</span> </div> <i class="fa fa-shopping-cart"
-                            aria-hidden="true"></i>
-                    </a>
-                </div>
+<div class="sidebar-nav">
+    <nav class="navbar navbar-dark bg-primary fixed-top">
+        <div class="container">
+<h1 style="color: azure;"> My Shop</h1>
+
+        
+           <app-app-search></app-app-search>
+            <!-- Mobile Menu Toggle Button -->
+            <button class="" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                <span >Categories</span>
+            </button>
+           <app-add-cart></app-add-cart>
+            <!-- Menus List -->
+            <div class="offcanvas offcanvas-start shadow" style="width:fit-content" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+              <div class="offcanvas-body">
+                <h1 style="padding: 2rem;">MyShop</h1>
+                  <app-category-list></app-category-list>
+              </div>
             </div>
-            <div class="account-wrap"></div>
+         
         </div>
-    </div>
-</header>
+    </nav>
+  </div>

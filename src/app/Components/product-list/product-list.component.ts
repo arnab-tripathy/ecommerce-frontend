@@ -11,6 +11,12 @@ import { ProductService } from 'src/app/services/product.service';
 export class ProductListComponent {
   products:Product[]=[];
   categoryId:Number;
+  totalElements: number;
+  previousCategoryId:Number=1;
+  totalPages: number;
+  size: number=5;
+  pageNumber: number=1;
+  
 
 
   constructor(private productService:ProductService,
@@ -25,6 +31,7 @@ export class ProductListComponent {
   }
 
   listAllProducts(){
+    console.log("list all")
  if(this.route.snapshot.routeConfig?.path=='search/:keyword'){
   const searchKeyword=this.route.snapshot.paramMap.get("keyword") ;
  this.handleSearchList(searchKeyword!);
@@ -47,15 +54,34 @@ export class ProductListComponent {
       this.categoryId=1;
     }
 
-    this.productService.getAllProducts(this.categoryId).subscribe(data=>{
+
+    //check if the current category id is same , else we have to start from page 1(in the url smeone may change the category id)
+
+    if(this.previousCategoryId!=this.categoryId){
+      this.pageNumber=1;
+    }
+    this.previousCategoryId=this.categoryId;
+
+    this.productService.getAllProducts(this.categoryId,this.pageNumber-1,this.size).subscribe(data=>{
       console.log("getAllPrdoucts"+data)
-       this.products=data.content;
+      this.processResult(data);
+    
+    })
+  }
+private processResult(data:any){
+  this.products=data.content;
+  this.totalElements=data.totalElements;
+  this.totalPages=data.totalElements;
+  this.pageNumber=data.number+1;
+}
+  handleSearchList(keyword:String):void{
+    this.productService.findProductByName(keyword,this.pageNumber-1,this.size).subscribe(data=>{
+    this.processResult(data);
     })
   }
 
-  handleSearchList(keyword:String):void{
-    this.productService.findProductByName(keyword).subscribe(data=>{
-      this.products=data.content;
-    })
+
+  addToCart(product:Product):void{
+      console.log("cart"+product.id)
   }
 }
