@@ -13,6 +13,7 @@ import { ProuctDetailsComponent } from './Components/prouct-details/prouct-detai
 import { HeaderComponent } from './Components/header/header.component';
 
 import { AddCartComponent } from './Components/add-cart/add-cart.component';
+import { CartDetailsComponent } from './Components/cart-details/cart-details.component';
 
 
 
@@ -25,6 +26,7 @@ const routes:Routes=[
   {path: "products" , component: ProductListComponent},
   {path: "category" , component: ProductListComponent},
   {path:"product/:id", component: ProuctDetailsComponent},
+  {path:"cart",component:CartDetailsComponent},
   {path: "" , redirectTo:"/products" ,pathMatch:'full'},
  
 ]
@@ -39,6 +41,7 @@ const routes:Routes=[
     ProuctDetailsComponent,
     HeaderComponent,
     AddCartComponent,
+    CartDetailsComponent,
   
   ],
   imports: [

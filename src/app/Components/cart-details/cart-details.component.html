@@ -1,0 +1,70 @@
+
+
+<div class="main-content">
+
+    <div class="section-content section-content-p30">
+        <div class="container-fluid">
+            <div  *ngIf="cartItems.length==0">
+                No items in cart
+            </div>
+
+            <table *ngIf="cartItems.length>0" style="" class="table table-bordered ">
+                <tr>
+                    <th width="70%">Product</th>
+                    <th width="30%"></th>
+                </tr>
+        
+                <tr *ngFor="let item of cartItems">
+                    <td><img class="img-responsive" src="{{item.image_url}}" width="140px">
+                        {{item.name}}
+                    </td>
+                    
+        
+                  <td>
+        
+                    <div class="items">
+                        <label>Quantity:</label>
+                        <div class="row no-gutters">
+                            <div class="col">
+                                <button class="btn btn-primary btn-sm" (click)="increaseQuantity(item)">
+                                    <i class="fas fa-plus"></i>
+                                    plus
+                                </button>
+                            </div>
+                            <div class="col ml-4 mr-2" >
+                                {{item.quantity}}
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-primary btn-sm" (click)="decreaseQuantity(item)">
+                                    <i class="fas fa-minus"></i>
+                                    minus
+                                </button>
+                            </div>
+
+                         
+                        </div>
+
+                    
+                    </div>
+                    <button style="background-color: red;" class="btn btn-primary btn-sm" (click)="remove(item)">remove</button>
+
+                    <p class="mt-2"> Total: {{item.quantity * item.unitPrice}}</p>
+                  </td>
+        
+                </tr>
+        
+            <tr >
+
+                <td colspan="1"></td>
+                <td style="font-weight: bold;">TotalPrice: {{totalPrice}}</td>
+            </tr>
+            </table>
+
+            
+        
+        </div>
+    </div>
+</div>
+
+
+  
