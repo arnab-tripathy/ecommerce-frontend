@@ -12,7 +12,15 @@
                 <span >Categories</span>
             </button>
            <app-add-cart></app-add-cart>
-            <!-- Menus List -->
+
+            <div>
+              <button (click)="loginClicked()" >
+                <h4  style="color: white;">{{isLoggedIn?'Log Out':'Login'}}</h4>
+              </button>
+                
+              
+           
+            </div> 
             <div class="offcanvas offcanvas-start shadow" style="width:fit-content" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
               <div class="offcanvas-body">
                 <h1 style="padding: 2rem;">MyShop</h1>

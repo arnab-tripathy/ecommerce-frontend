@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { isEmpty, Subject } from 'rxjs';
+import { BehaviorSubject, isEmpty, Subject } from 'rxjs';
 import { CartItem } from '../Model/cart-item';
 
 @Injectable({
@@ -9,8 +9,8 @@ export class CartItemService {
 cartItems:CartItem[]=[];
 alreadyExisting:boolean=false;
 
-totalPrice:Subject<number>=new Subject<number>();
-totaQuantity:Subject<number>= new Subject<number>();
+totalPrice:Subject<number>=new BehaviorSubject<number>(0);
+totaQuantity:Subject<number>= new BehaviorSubject<number>(0);
 
   constructor() { 
 
@@ -20,18 +20,26 @@ totaQuantity:Subject<number>= new Subject<number>();
   addToCart(cartItem:CartItem):void{
 
   console.log("add to cart service "+ cartItem.name)
-  for (let item of this.cartItems) {
-    console.log("for loop cartitem"+item.name);
-    if(item.id==cartItem.id){  
-      //this item already present in cart
-      item.quantity++;
+  // for (let item of this.cartItems) {
+  //   console.log("for loop cartitem"+item.name);
+  //   if(item.id==cartItem.id){  
+  //     //this item already present in cart
+  //     item.quantity++;
 
-      console.log("existing cond true"+item.quantity) 
-      this.alreadyExisting=true;
-      break;
+  //     console.log("existing cond true"+item.quantity) 
+  //     this.alreadyExisting=true;
+  //     break;
+  //   }
+
+  // }
+
+  this.cartItems.map((item)=>{
+    if(item.id==cartItem.id){
+      console.log("existing cond true"+item.quantity) ;
+      item.quantity++
+      this.alreadyExisting=true
     }
-
-  }
+  })
   if(!this.alreadyExisting){
     console.log("not existing");
     this.cartItems.push(cartItem);

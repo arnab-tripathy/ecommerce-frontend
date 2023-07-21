@@ -14,6 +14,12 @@ import { HeaderComponent } from './Components/header/header.component';
 
 import { AddCartComponent } from './Components/add-cart/add-cart.component';
 import { CartDetailsComponent } from './Components/cart-details/cart-details.component';
+import { CheckoutComponent } from './Components/checkout/checkout.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoginComponentComponent } from './Components/login-component/login-component.component';
+import { SignupmodalComponent } from './Components/signupmodal/signupmodal.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 
 
@@ -27,6 +33,8 @@ const routes:Routes=[
   {path: "category" , component: ProductListComponent},
   {path:"product/:id", component: ProuctDetailsComponent},
   {path:"cart",component:CartDetailsComponent},
+  {path:"checkout",component:CheckoutComponent},
+  {path:"login",component:LoginComponentComponent},
   {path: "" , redirectTo:"/products" ,pathMatch:'full'},
  
 ]
@@ -42,6 +50,10 @@ const routes:Routes=[
     HeaderComponent,
     AddCartComponent,
     CartDetailsComponent,
+    CheckoutComponent,
+    LoginComponentComponent,
+    SignupmodalComponent
+
   
   ],
   imports: [
@@ -49,7 +61,10 @@ const routes:Routes=[
     RouterModule.forRoot(routes),
     BrowserModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule,
+    FormsModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

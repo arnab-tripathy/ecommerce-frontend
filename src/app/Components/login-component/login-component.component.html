@@ -1,0 +1,63 @@
+
+
+
+
+
+
+<div style="margin-top: 10vh; display: flex; justify-content: center;" class="login-registration-container">
+  <div id="loginBadge" style="display: none;" class="alert alert-success" role="alert">
+   Login Successful!
+  </div>
+
+  <div style="display: flex; justify-content: center;">
+
+    <h2>{{ mode === 'login' ? 'Login' : 'Register' }}</h2>
+  </div>
+
+
+    <div *ngIf="isLoading" class="d-flex justify-content-center spinner-container">
+      <div class="spinner-border spinnerDiv" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  
+ 
+
+  <div style="display:flex; justify-content: center;">
+    <form (ngSubmit)="onSubmit()" style="margin-top: 5vh;" [formGroup]="form">
+      <div *ngIf="mode!='login'">
+        <div class="mb-3">
+          <label for="exampleInputFirstName" class="form-label">Fist name</label>
+          <input formControlName="firstName" maxlength="20" style="width: 20vw;" type="text"  class="form-control" id="exampleInputFirstName" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputLastName" class="form-label">Last name</label>
+          <input formControlName="lastName" maxlength="20" style="width: 20vw;" type="text" class="form-control" id="exampleInputLastName" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputNumber" class="form-label">Mobile number</label>
+          <input formControlName="mobileNumber" maxlength="20" style="width: 20vw;" type="tel" class="form-control" id="exampleInputNumber" aria-describedby="emailHelp">
+        </div>
+      </div>
+   
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input formControlName="email" style="width: 20vw;" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword2" class="form-label">Password</label>
+            <input formControlName="password"  style="width: 20vw;" type="password" class="form-control" id="exampleInputPassword1">
+            <p *ngIf="passwordValid==false && isPasswordTyping==true " style="color: red;">Please enter a password having 8 characters one letter and one number</p>
+          </div>
+          <div *ngIf="mode!='login'" class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
+            <input formControlName="confirmpassword" style="width: 20vw;" type="password" class="form-control" id="exampleInputPassword2">
+          </div>
+          <div style="display: flex; ">
+            <button style="margin-right: 12px;" type="submit" class="btn btn-primary">Submit</button>
+            <p (click)="toggleMode()" style="cursor: pointer; color: blue; ">{{mode==='login'?'Sign up now':'Already have an account , login'}}</p></div>
+          </form>
+  </div>
+  <app-signupmodal ></app-signupmodal>
+  </div>
