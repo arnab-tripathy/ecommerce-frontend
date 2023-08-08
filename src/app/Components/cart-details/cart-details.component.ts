@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { CartItem } from 'src/app/Model/cart-item';
 import { CartItemService } from 'src/app/services/cart-item.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-cart-details',
@@ -12,7 +15,8 @@ export class CartDetailsComponent {
   cartItems:CartItem[];
   totalPrice:number=0;
 
-  constructor(private cartService:CartItemService){
+  constructor(private cartService:CartItemService,private userService:UserService,
+     private router:Router){
 
   }
 
@@ -21,27 +25,37 @@ export class CartDetailsComponent {
   }
 
   listCartDetails():void{
-this.cartItems=this.cartService.cartItems;
+   this.cartService.getCartItems().subscribe(data=>{
+    this.cartService.cartItems=data;
+    this.cartItems=this.cartService.cartItems;
+  this.cartService.computeTotals();
+   });
 
-this.cartService.totalPrice.subscribe(data=>{
-  this.totalPrice=data;
-})
-
-this.cartService.computeTotals();
-console.log(this.cartItems.at(0)?.image_url)
-
-
-
+   this.cartService.totalPrice.subscribe(data=>{
+    this.totalPrice=data;
+   })
   }
-
-  increaseQuantity(item:CartItem):void{
-    this.cartService.addToCart(item);
-  }
-  decreaseQuantity(item:CartItem):void{
-    this.cartService.decreaseQuantity(item);
-  }
-
   remove(item:CartItem):void{
     this.cartService.removeItem(item);
+  }
+
+  checkoutClicked():void{
+   this.userService.checkTokenExpired();
+   this.userService.isTokenExpired.subscribe(res=>{
+    if(res){
+      this.router.navigate(['/login']);
+
+    }
+    else{
+      this.router.navigate(['/checkout'])
+    }
+   }) 
+   
+  }
+
+  calculateTotalPrice():void{
+    for(let item of this.cartItems){
+      this.totalPrice+= item.quantity+item.unitPrice;
+    }
   }
 }

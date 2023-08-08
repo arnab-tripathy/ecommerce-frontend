@@ -50,7 +50,16 @@ export class UserService {
   
   }
 
+  setUserName(userEmail:string):void{
+    localStorage.setItem('userEmail',userEmail);
+  }
 
+  getUserEmail():string | null{
+    return localStorage.getItem('email')
+  }
+  removeUserEmail():void{
+    localStorage.removeItem('userEmail');
+  }
 
 }
 
@@ -58,10 +67,12 @@ interface UserSignupResponse{
   user:User;
   statusCode:HttpStatusCode;
   token:string;
+  failureReason:string;
 }
 
 
 interface LoginResponse{
   jwtToken:string;
   username:string;
+  userEmail:string;
 }

@@ -21,6 +21,7 @@ export class LoginComponentComponent {
   isPasswordTyping=false;
   showSuccess=false;
   isLoading=false;
+  warningMessage:string;
 
   constructor(private fb: FormBuilder,private userService:UserService,
     private route:ActivatedRoute, private router:Router) { }
@@ -69,6 +70,7 @@ export class LoginComponentComponent {
           if(res!=null){
             console.log("success",res);
             this.userService.setToken(res.jwtToken);
+            localStorage.setItem('email',res.userEmail);
             document.getElementById("loginBadge")!.style.display ="flex"
             setTimeout(()=>{
               
@@ -90,12 +92,18 @@ export class LoginComponentComponent {
           userInput.password);
         console.log(user.first_name);
         this.userService.signupUser(user).subscribe(res=>{
-          if(res.statusCode.toString()=='CREATED'){
+          if(res.failureReason!=null){
               this.userService.setToken(res.token)
               this.userService.checkTokenExpired();
               openModal();
               this.isLoading=false;
           } 
+          else{
+            
+            this.warningMessage=res.failureReason;
+            document.getElementById("warningBadge")!.style.display="flex";
+            this.isLoading=false; 
+          }
         });
       
       // Handle registration logic

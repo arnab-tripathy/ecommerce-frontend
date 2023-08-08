@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CartItem } from 'src/app/Model/cart-item';
 import { Product } from 'src/app/Model/product';
 import { CartItemService } from 'src/app/services/cart-item.service';
 import { ProductService } from 'src/app/services/product.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-product-list',
@@ -21,8 +22,8 @@ export class ProductListComponent {
   
 
 
-  constructor(private productService:ProductService, private cartSrvice:CartItemService,
-    private route:ActivatedRoute){}
+  constructor(private productService:ProductService, private cartSrvice:CartItemService,private userService:UserService,
+    private route:ActivatedRoute,private router:Router){}
   
   ngOnInit():void{
     this.route.paramMap.subscribe(()=>{
@@ -83,7 +84,16 @@ private processResult(data:any){
   }
 
 
-  addToCart(product:Product):void{
-      this.cartSrvice.addToCart(new CartItem(product));
+  addToCart(productId:number):void{
+
+  this.userService.isTokenExpired.subscribe(res=>{
+    if(!res){
+      this.cartSrvice.addToCart(productId);
+    }
+    else{
+      this.router.navigate(['/login']);
+    }
+  })
+      
   }
 }

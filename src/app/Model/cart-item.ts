@@ -9,11 +9,11 @@ export class CartItem {
      quantity:number;
 
 
-    constructor(product:Product){
+    constructor(product:Product,quantity:number){
         this.id=product.id;
         this.name=product.name;
         this.unitPrice=product.unit_price;
-        this.quantity=1;
+        this.quantity=quantity;
         this.image_url=product.image_url
     }
 }

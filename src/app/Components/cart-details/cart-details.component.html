@@ -4,7 +4,7 @@
 
     <div class="section-content section-content-p30">
         <div class="container-fluid">
-            <div  *ngIf="cartItems.length==0">
+            <div  *ngIf="cartItems.length<0">
                 No items in cart
             </div>
 
@@ -25,21 +25,11 @@
                     <div class="items">
                         <label>Quantity:</label>
                         <div class="row no-gutters">
-                            <div class="col">
-                                <button class="btn btn-primary btn-sm" (click)="increaseQuantity(item)">
-                                    <i class="fas fa-plus"></i>
-                                    plus
-                                </button>
-                            </div>
+                        
                             <div class="col ml-4 mr-2" >
                                 {{item.quantity}}
                             </div>
-                            <div class="col">
-                                <button class="btn btn-primary btn-sm" (click)="decreaseQuantity(item)">
-                                    <i class="fas fa-minus"></i>
-                                    minus
-                                </button>
-                            </div>
+                        
 
                          
                         </div>
@@ -57,7 +47,7 @@
 
                 <td colspan="1"></td>
                 <td style="font-weight: bold;">TotalPrice: {{totalPrice}}
-                    <a routerLink="/checkout" class="btn btn-primary btn-md">Checkout</a></td>
+                    <button (click)="checkoutClicked()" class="btn btn-primary ">Checkout</button></td>
        
 
             </tr>

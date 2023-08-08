@@ -1,52 +1,57 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, isEmpty, Subject } from 'rxjs';
+import { BehaviorSubject, isEmpty, map, Observable, Subject } from 'rxjs';
 import { CartItem } from '../Model/cart-item';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { AddToCartRequest } from '../Model/add-to-cart-request';
+import { UserService } from './user.service';
+import { Product } from '../Model/product';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartItemService {
 cartItems:CartItem[]=[];
+baseUrl:string="http://localhost:8080/cart"
 alreadyExisting:boolean=false;
 
 totalPrice:Subject<number>=new BehaviorSubject<number>(0);
 totaQuantity:Subject<number>= new BehaviorSubject<number>(0);
 
-  constructor() { 
+  constructor(private http: HttpClient,private userService:UserService) { 
 
   }
 
 
-  addToCart(cartItem:CartItem):void{
-
-  console.log("add to cart service "+ cartItem.name)
-  // for (let item of this.cartItems) {
-  //   console.log("for loop cartitem"+item.name);
-  //   if(item.id==cartItem.id){  
-  //     //this item already present in cart
-  //     item.quantity++;
-
-  //     console.log("existing cond true"+item.quantity) 
-  //     this.alreadyExisting=true;
-  //     break;
-  //   }
-
-  // }
-
-  this.cartItems.map((item)=>{
-    if(item.id==cartItem.id){
-      console.log("existing cond true"+item.quantity) ;
-      item.quantity++
-      this.alreadyExisting=true
-    }
-  })
-  if(!this.alreadyExisting){
-    console.log("not existing");
-    this.cartItems.push(cartItem);
+  addToCart(productId:number):boolean{
+    var addtoCartRequest: AddToCartRequest=new AddToCartRequest();
+    addtoCartRequest.productId=productId;
+    addtoCartRequest.userEmail=this.userService.getUserEmail()!;
+    const headers=new HttpHeaders({
+      'Authorization': 'Bearer '+this.userService.getToken()
+    })
+    console.log("add to cart service "+ addtoCartRequest.productId + addtoCartRequest.userEmail
+    );
+    this.http.post<boolean>(`${this.baseUrl}/addtocart`,addtoCartRequest,{headers:headers}).subscribe(data=>{
+      console.log(data);
+      return data;
+    })
+    return false;
   }
-this.alreadyExisting=false;
-this.computeTotals();
 
+  getCartItems():Observable<any>{
+    const headers=new HttpHeaders({
+      'Authorization': 'Bearer '+this.userService.getToken()
+    })
+
+    var userEmail=this.userService.getUserEmail();
+    return  this.http.get<any>(`${this.baseUrl}/getcartproducts?userName=${userEmail}`, {headers:headers}).pipe(map((response:any)=>{
+      console.log(response)   
+      const productList:CartItemsResponse[]=response|| []; 
+      return productList.map(item=>{
+        return new CartItem(item.product,item.quantity);
+      })
+
+     }))
   }
 
 removeItem(item:CartItem):void{
@@ -94,5 +99,10 @@ this.cartItems.splice(removeIndex,1);
   }
 }
 
+
+interface CartItemsResponse{
+  product:Product;
+  quantity:number
+}
 
 
