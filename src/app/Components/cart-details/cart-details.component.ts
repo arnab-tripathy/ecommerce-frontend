@@ -21,22 +21,31 @@ export class CartDetailsComponent {
   }
 
   ngOnInit():void{
-    this.listCartDetails()
+    this.listCartDetails();
+    
   }
 
   listCartDetails():void{
-   this.cartService.getCartItems().subscribe(data=>{
-    this.cartService.cartItems=data;
-    this.cartItems=this.cartService.cartItems;
-  this.cartService.computeTotals();
-   });
+    console.log("list cart detail called");
+    
+this.cartService.cartItems.subscribe(data=>{
+  this.cartItems=data;
+  console.log("cartItems "+ this.cartItems.at(0)?.name);
+});
 
+   
    this.cartService.totalPrice.subscribe(data=>{
     this.totalPrice=data;
    })
+
+   this.cartService.getCartItems();
   }
   remove(item:CartItem):void{
-    this.cartService.removeItem(item);
+    this.cartService.removeItem(item).subscribe(data=>{
+      if(data){
+        this.listCartDetails();
+      }
+    });
   }
 
   checkoutClicked():void{
@@ -58,4 +67,6 @@ export class CartDetailsComponent {
       this.totalPrice+= item.quantity+item.unitPrice;
     }
   }
+
+ 
 }

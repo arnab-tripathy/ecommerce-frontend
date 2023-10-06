@@ -4,7 +4,12 @@ import { CartItem } from 'src/app/Model/cart-item';
 import { State } from 'src/app/Model/state';
 import { CartItemService } from 'src/app/services/cart-item.service';
 import { MyShopFormService } from 'src/app/services/my-shop-form.service';
-
+import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
+import { Address } from 'src/app/Model/address';
+import { OrderService } from 'src/app/services/order.service';
+import { data } from 'jquery';
+import { UserService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
@@ -19,32 +24,39 @@ export class CheckoutComponent {
   stateNames:State[];
 cardExpDate:string="";
 backSpaceOncardExp=false;
-constructor(private formBuilder:FormBuilder,private cartService:CartItemService,private formServie:MyShopFormService){
+isCollapsed:boolean=true;
+addresses:Address[]=[];
+constructor(private formBuilder:FormBuilder,private cartService:CartItemService,private formServie:MyShopFormService, private orderService
+  :OrderService, private userService:UserService, private router:Router){
 
 }
 
 ngOnInit():void{
 
-  this.cartItems=this.cartService.cartItems;
+  this.addresses=this.orderService.addresses;
+  this.fetchAllAddress();
+
+  this.userService.checkTokenExpired();
+this.userService.isTokenExpired.subscribe(data=>{
+  if(data){
+    this.router.navigate(['/login']);
+  }
+})
+
+ this.cartService.cartItems.subscribe(data=>{
+  this.cartItems=data;
+ });
   this.checkoutFormGroup=this.formBuilder.group({
-    customer:this.formBuilder.group({
+    newaddress:this.formBuilder.group({
       firstName:[''],
       lastName:[''],
-      email:['']
-    }),
-    shippingAddress:this.formBuilder.group({
+      email:[''],
+      mobileNumber:[''],
       street:[''],
       city:[''],
       state:[''],
       PinCode:[''],
     
-    }),
-    creditCard: this.formBuilder.group({
-      cardType: [''],
-      nameOnCard: [''],
-      cardNumber: [''],
-      securityCode: [''],
-      expDate:['']
     })
 
     
@@ -86,7 +98,17 @@ this.reviewCartTotals();
 }
 
 onSubmit():void{
-  console.log(this.checkoutFormGroup.get('customer')?.value);
+
+  console.log(this.checkoutFormGroup.get('newaddress')?.value);
+  var newAdress: Address = this.checkoutFormGroup.get('newaddress')?.value;
+  console.log(newAdress.city);
+
+  this.orderService.addNewAddress(newAdress).subscribe((data)=>{
+    console.log("new address"+ data);
+    this.fetchAllAddress();
+  },(err)=>{
+    console.log("error"+err)
+  })
 }
 
 cardValidation(tempDate:string):string{
@@ -120,10 +142,20 @@ onKeyDown(event: KeyboardEvent) {
   }
 }
 
+radioChecked():void{
+  console.log("radio checked");
+  this.isCollapsed=true;
+}
+
 reviewCartTotals():void{
   this.cartService.totalPrice.subscribe(data=>{
     this.totalPrice=data;
   })
 }
-
+fetchAllAddress():void{
+    this.orderService.getAllAddress().subscribe(data=>{
+      console.log("all adress"+ data.at(0)?.street);
+      this.addresses=data;
+    })
+}
 }

@@ -15,7 +15,7 @@
                 </tr>
         
                 <tr *ngFor="let item of cartItems">
-                    <td><img class="img-responsive" src="{{item.image_url}}" width="140px">
+                    <td><img class="img-responsive" src="https://5.imimg.com/data5/SELLER/Default/2021/3/JP/CL/JI/29090626/realme-7-mobile-phone.jpg" width="140px">
                         {{item.name}}
                     </td>
                     
@@ -24,11 +24,17 @@
         
                     <div class="items">
                         <label>Quantity:</label>
-                        <div class="row no-gutters">
-                        
-                            <div class="col ml-4 mr-2" >
+                        <div class="row ">
+                            
+                            <div style="background-color: rgb(198, 168, 168); margin-left: 2%;"class=" col-1">
+                               +
+                            </div>
+                            <div class="col-1" >
                                 {{item.quantity}}
                             </div>
+                            <div style="background-color: rgb(198, 168, 168); "class=" col-1">
+                                -
+                             </div>
                         
 
                          
@@ -46,8 +52,8 @@
             <tr >
 
                 <td colspan="1"></td>
-                <td style="font-weight: bold;">TotalPrice: {{totalPrice}}
-                    <button (click)="checkoutClicked()" class="btn btn-primary ">Checkout</button></td>
+                <td style="">TotalPrice: {{totalPrice}}
+                    <button style="background-color: rebeccapurple;" (click)="checkoutClicked()" class="btn btn-danger ">Checkout</button></td>
        
 
             </tr>

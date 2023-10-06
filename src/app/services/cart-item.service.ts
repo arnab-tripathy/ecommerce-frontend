@@ -10,12 +10,13 @@ import { Product } from '../Model/product';
   providedIn: 'root'
 })
 export class CartItemService {
-cartItems:CartItem[]=[];
+cartItems:Subject<CartItem[]>=new BehaviorSubject<CartItem[]>([]);
 baseUrl:string="http://localhost:8080/cart"
 alreadyExisting:boolean=false;
 
 totalPrice:Subject<number>=new BehaviorSubject<number>(0);
 totaQuantity:Subject<number>= new BehaviorSubject<number>(0);
+
 
   constructor(private http: HttpClient,private userService:UserService) { 
 
@@ -23,6 +24,8 @@ totaQuantity:Subject<number>= new BehaviorSubject<number>(0);
 
 
   addToCart(productId:number):boolean{
+
+    console.log("add to cart called");
     var addtoCartRequest: AddToCartRequest=new AddToCartRequest();
     addtoCartRequest.productId=productId;
     addtoCartRequest.userEmail=this.userService.getUserEmail()!;
@@ -33,69 +36,90 @@ totaQuantity:Subject<number>= new BehaviorSubject<number>(0);
     );
     this.http.post<boolean>(`${this.baseUrl}/addtocart`,addtoCartRequest,{headers:headers}).subscribe(data=>{
       console.log(data);
+      this.getCartItems();
       return data;
     })
+
+   
     return false;
   }
 
-  getCartItems():Observable<any>{
+  getCartItems():void{
+
+    console.log("get cart items called");
     const headers=new HttpHeaders({
       'Authorization': 'Bearer '+this.userService.getToken()
     })
 
     var userEmail=this.userService.getUserEmail();
-    return  this.http.get<any>(`${this.baseUrl}/getcartproducts?userName=${userEmail}`, {headers:headers}).pipe(map((response:any)=>{
-      console.log(response)   
-      const productList:CartItemsResponse[]=response|| []; 
-      return productList.map(item=>{
-        return new CartItem(item.product,item.quantity);
-      })
+  // this.http.get<CartItemsResponse[]>(`${this.baseUrl}/getcartproducts?userName=${userEmail}`,{headers:headers}).subscribe(data=>{
+  //   console.log(data);
 
-     }))
+  //   console.log("cartitems"+ this.cartItems);
+  //   this.totaQuantity.next(data.length);
+  // })
+
+  this.http.get<any>(`${this.baseUrl}/getcartproducts?userName=${userEmail}`,{headers:headers}).pipe(map((response:any)=>{
+    console.log(response)   
+    const productList:CartItemsResponse[]=response|| []; 
+    return productList.map(item=>{
+      return new CartItem(item.product,item.quantity);
+    })
+  })).subscribe(data=>{
+      console.log("cartItems"+ data.at(0)?.name)
+      this.cartItems.next(data);
+      this.totaQuantity.next(data.length);
+      this.computeTotals();
+  })
+
   }
 
-removeItem(item:CartItem):void{
+removeItem(item:CartItem):Observable<boolean>{
+  var userEmail:string="";
+  userEmail= this.userService.getUserEmail()!;
 
-let removeIndex=-1;
-  this.cartItems.forEach(tempItem=>{
-  if(tempItem.id==item.id){
-removeIndex=this.cartItems.indexOf(tempItem);
-  }
-})
+  console.log("userEmail"+ userEmail);
+  const headers=new HttpHeaders({
+    'Authorization': 'Bearer '+this.userService.getToken()
+  })
+return this.http.delete<boolean>(`${this.baseUrl}/deletefromcart?prodductId=${item.id}&userEmail= ${userEmail}`,{headers:headers});
 
-this.cartItems.splice(removeIndex,1);
+
 }
 
   computeTotals():void{
 
 
-  let price:number=0
-  let quantity:number=0;
-    for(let item of this.cartItems){
-     console.log(item.name);
-      let itemPrice=item.quantity* item.unitPrice;
-      price+=itemPrice;
-      quantity+=item.quantity;
-      
-    }
-    this.totalPrice.next(price);
-    this.totaQuantity.next(quantity);
 
-    console.log(`${quantity} "and price" ${price}`)
+    this.cartItems.subscribe(data=>{
+      let price=0;
+
+        data.forEach(item=>{
+          price+=item.quantity * item.unitPrice;
+        })
+        this.totalPrice.next(price);
+    })
+
+  
+  // let price:number=0
+  // let quantity:number=0;
+  //   for(let item of this.cartItems){
+  //    console.log(item.name);
+  //     let itemPrice=item.quantity* item.unitPrice;
+  //     price+=itemPrice;
+  //     quantity+=item.quantity;
+      
+  //   }
+  //   this.totalPrice.next(price);
+  //   this.totaQuantity.next(quantity);
+
+  //   console.log(`${quantity} "and price" ${price}`)
 
   }
 
   decreaseQuantity(item:CartItem):void{
 
-    if(item.quantity==1){
-      this.removeItem(item);
-    }
-    this.cartItems.forEach(tempItem=>{
-      if(tempItem.id==item.id){
-        tempItem.quantity--;
-        this.computeTotals();
-      }
-    })
+   
   }
 }
 

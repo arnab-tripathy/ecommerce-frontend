@@ -1,5 +1,6 @@
 import { Component, Output , EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
+import { CartItemService } from 'src/app/services/cart-item.service';
 import { UserService } from 'src/app/services/user.service';
 
 
@@ -12,12 +13,23 @@ export class HeaderComponent {
 
  hamStatus:boolean=false;
  isLoggedIn:boolean=false;
-constructor(public userService: UserService , private router:Router){
+ cartItems:number=0;
+constructor(public userService: UserService , private router:Router,private cartService: CartItemService){
 
 }
 
 ngOnInit():void{
   this.checkToken();
+ this.updateCartervice();
+
+}
+
+updateCartervice():void{
+
+  this.cartService.totaQuantity.subscribe(data=>{
+    this.cartItems=data;
+  })
+  this.cartService.getCartItems();
 }
 
 sideNavToggle():void{

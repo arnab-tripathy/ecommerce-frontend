@@ -5,17 +5,23 @@
             <div class="row" >
                 <div *ngFor="let product of products" class="col-md-3">
                    
-                        <div   class="product-box">
-                            <a routerLink="/product/{{product.id}}">
-                                <img src="{{product.image_url}}" class="image-responsive">
-                            </a>
+                    <div style="display: flex; flex-direction: column;">
+                        <div id="loginBadge{{product.id}}" style="display: none;" class="alert alert-success" role="alert">
+                           Added to Cart
+                           </div>
+                        
+                        <div class="card" style="width: 18rem; margin-top: 2rem;">
+                            <img [routerLink]="['/product',product.id]"   src="https://5.imimg.com/data5/SELLER/Default/2021/3/JP/CL/JI/29090626/realme-7-mobile-phone.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                              <h5 class="card-title">{{product.name}}</h5>
+                              <p class="card-text">{{product.unit_price}}</p>
+                              <button id="addtocart{{product.id}}" (click)="addToCart(product.id)" class="btn btn-primary">Add to Cart</button>
+                            </div>
+                          </div>
+                    </div>
+                    
 
-                           
-                            <h1>{{product.name}}</h1>
-                            <div class="price">{{product.unit_price}}</div>
-                            <button (click)="addToCart(product.id)" class="btn btn-primary"> Add to cart</button>
-            
-                        </div>
+                        
                  
                    
                    

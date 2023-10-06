@@ -37,5 +37,6 @@ loadProductDetails():void{
 
 addToCart(product:Product):void{
 this.cartService.addToCart(product.id)
+
 }
 }

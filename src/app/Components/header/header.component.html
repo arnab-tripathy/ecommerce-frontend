@@ -7,17 +7,31 @@
 
         
            <app-app-search></app-app-search>
-            <!-- Mobile Menu Toggle Button -->
+           <div style="margin-right: 20px;">
             <button class="" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-                <span >Categories</span>
+              <span style="color: white;">Categories</span>
+          </button>
+           </div>
+           <div style="display: flex;  justify-content: center">
+        
+           
+            <button style="margin-right: 50%; margin-top: 10%; height: 30px;" routerLink="/cart" type="button" class="btn btn-light position-relative">
+              <span style=" padding-top: 10%;">Cart</span>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+               {{cartItems}}
+              </span>
             </button>
-            
-            <a routerLink="/cart">CART</a>
+          
+     
+        
 
-            <div>
-              <button (click)="loginClicked()" >
-                <h4  style="color: white;">{{isLoggedIn?'Log Out':'Login'}}</h4>
-              </button>
+          <div >
+            <button (click)="loginClicked()" >
+              <h4  style="color: white;">{{isLoggedIn?'Log Out':'Login'}}</h4>
+            </button>
+          </div>
+            <!-- Mobile Menu Toggle Button -->
+           
                 
               
            

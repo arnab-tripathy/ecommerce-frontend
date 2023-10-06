@@ -89,6 +89,17 @@ private processResult(data:any){
   this.userService.isTokenExpired.subscribe(res=>{
     if(!res){
       this.cartSrvice.addToCart(productId);
+
+      document.getElementById("loginBadge"+productId)!.style.display ="flex"
+setTimeout(()=>{
+  
+  document.getElementById("loginBadge"+productId)!.style.display ="none";
+  
+},1000)
+
+document.getElementById("addtocart"+productId)!.innerHTML="Added to cart";
+const button=document.getElementById("addtocart"+productId)!;
+button.setAttribute("disabled","disabled");
     }
     else{
       this.router.navigate(['/login']);
