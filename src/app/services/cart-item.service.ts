@@ -11,7 +11,7 @@ import { Product } from '../Model/product';
 })
 export class CartItemService {
 cartItems:Subject<CartItem[]>=new BehaviorSubject<CartItem[]>([]);
-baseUrl:string="http://localhost:8080/cart"
+baseUrl:string="https://ecommerce-project-backend-production.up.railway.app/cart"
 alreadyExisting:boolean=false;
 
 totalPrice:Subject<number>=new BehaviorSubject<number>(0);

@@ -14,7 +14,7 @@ export class UserService {
 
   constructor(private http:HttpClient) { }
 
-  baseUrl:string="http://localhost:8080/users"
+  baseUrl:string="https://ecommerce-project-backend-production.up.railway.app/users"
 
   isTokenExpired:Subject<boolean>=new BehaviorSubject<boolean>(true);
 

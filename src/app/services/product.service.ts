@@ -9,7 +9,7 @@ import { Product } from '../Model/product';
 })
 export class ProductService {
   productlist:Product[];
-  baseURL="http://localhost:8080/products"
+  baseURL="https://ecommerce-project-backend-production.up.railway.app/products"
   constructor(private http:HttpClient) { }
 
   getAllProducts(categoryId:Number,pageNum:number,pageSize:number):Observable<ProductResponse>{

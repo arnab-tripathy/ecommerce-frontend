@@ -9,7 +9,7 @@ import { UserService } from './user.service';
   providedIn: 'root'
 })
 export class OrderService {
-  baseURL="http://localhost:8080/order"
+  baseURL="https://ecommerce-project-backend-production.up.railway.app/order"
 addresses:Address[]=[];
 
   constructor(private httpClient:HttpClient, private userService:UserService) { }

@@ -9,7 +9,7 @@ import { Category } from '../Model/category';
 export class CategoryService {
   categoryList:Category[]
 
-  baseURL="http://localhost:8080/products/getAllCategory"
+  baseURL="https://ecommerce-project-backend-production.up.railway.app/products/getAllCategory"
   constructor(public httpClient: HttpClient) { }
 
 
