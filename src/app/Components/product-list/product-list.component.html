@@ -3,7 +3,12 @@
         <div class="container-fluid">
             <h1></h1>
             <div class="row" >
+                <div *ngIf="categoryId==1">
+                    <h1>Mobiles</h1>
+                </div>
+
                 <div *ngFor="let product of products" class="col-md-3">
+
                    
                     <div style="display: flex; flex-direction: column;">
                         <div id="loginBadge{{product.id}}" style="display: none;" class="alert alert-success" role="alert">
